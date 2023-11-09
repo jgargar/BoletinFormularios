@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from datetime import datetime
 from forms.forms import formularioUnoForms, formularioDosForms
 
 
@@ -35,6 +35,7 @@ def formulario_dos(request):
             username = formulario.cleaned_data['username']
             password = formulario.cleaned_data['password']
             fecha_creacion = formulario.cleaned_data['fecha_creacion']
+            formulario.cleaned_data['fecha_creacion'] = datetime.now()
             # Instanciamos el objeto tablero
             return render(request, 'forms/index.html', {})  # Le paso por el contexto el tablero del objeto tablero
     # Si se se pide la pagina por primera vez
