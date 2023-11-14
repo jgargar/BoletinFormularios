@@ -1,6 +1,5 @@
 from django.shortcuts import render
-from datetime import datetime
-from forms.forms import formularioUnoForms, formularioDosForms
+from forms.forms import formularioUnoForms, formularioDosForms, formularioTresForms
 
 
 # Create your views here.
@@ -42,4 +41,12 @@ def formulario_dos(request):
 
 
 def formulario_tres(request):
+    if request.method == "POST":
+        formulario = formularioTresForms(request.POST, request.FILES)
+        if formulario.is_valid():
+            imagen = formulario.cleaned_data['imagen']
+            with open(f'media/{imagen.name}', 'wb+') as destination:
+                for chunk in imagen.chunks():
+                    destination.write(chunk)
+            return render(request, 'forms/index.html', {})
     return render(request, 'forms/formulario.html', {})
